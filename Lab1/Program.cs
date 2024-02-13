@@ -1,6 +1,6 @@
 ﻿while (true)
 {
-    Console.Write("Choose task to run it (1, 2, 3) or type 0 to exit the program: ");
+    Console.Write("\nChoose a task to run it (1, 2, 3) or type 0 to exit the program: ");
     try
     {
         int task = int.Parse(Console.ReadLine());
@@ -31,11 +31,16 @@
 
 void Task1()
 {
+    //  У колі стоять N людей, пронумерованих від 1 до N. При веденні
+    // рахунку по колу викреслюється кожна друга людина, поки не
+    // залишиться один. Скласти програму, що моделює процес за
+    // допомогою списків
     try
     {
         Console.Write("Enter amount of people in circle: ");
         int n = int.Parse(Console.ReadLine());
         List<int> circle = new List<int>();
+        Console.WriteLine("\nStarting circle:");
         for (int i = 1; i <= n; i++)
         {
             circle.Add(i);
@@ -43,11 +48,18 @@ void Task1()
         }
         Console.WriteLine();
 
-        while (circle.Count > 1)
+        // у залежності від минулої кількості людей у колі видаляти чи і + 1, чи і.
+
+        Console.WriteLine("\nСrossing out \"2nds\" in the circle: ");
+        bool isSecondCrossing = false;
+        while (circle.Count > 1) // поки не залишиться один
         {
+            // якщо початкова кількість непарна, то далі,
+            // йдучи по колу, перший елемент буде завжди "другим"
+            if (n % 2 == 1 && isSecondCrossing) { circle.RemoveAt(0); } 
             for (int i = 0; i < circle.Count - 1; i++)
             {
-                if (i != circle.Count)
+                if (i != circle.Count) // якщо не останній (видаляється наступний)
                 {
                     circle.RemoveAt(i + 1);
                 }
@@ -57,6 +69,7 @@ void Task1()
                 Console.Write(person + " ");
             }
             Console.WriteLine();
+            isSecondCrossing = true;
         }
     }
     catch (Exception ex)

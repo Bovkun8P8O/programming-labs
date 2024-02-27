@@ -2,10 +2,10 @@
 
 while (true)
 {
-    Console.Write("\nChoose a task to run it (1, 2, 3) or type 0 to exit the program: ");
+    Console.WriteLine("\nChoose a task to run it (1, 2, 3) or type 0 to exit the program: ");
     try
     {
-        int task = int.Parse(Console.ReadLine());
+        if (!int.TryParse(Console.ReadLine(), out int task)) task = -1;        
         switch (task)
         {
             case 1:
@@ -19,6 +19,7 @@ while (true)
                 break;
             case 0:
                 return;
+            case -1:
             default:
                 Console.WriteLine("There is no such task");
                 break;
@@ -56,7 +57,6 @@ void Task2()
     //  Дано список та словник. Створити новий словник, в якому ключами
     // будуть значення списку, а значеннями ключів — елементи
     // словника. Записати у JSON файл.
-
     try
     {
         //List<int> list = new List<int> { 1, 2, 3, 4, 5 };
@@ -121,5 +121,43 @@ void Task2()
 }
 void Task3()
 {
+    // Дано символ С і строкова послідовність A. Якщо A містить єдиний
+    // елемент, що закінчується символом C, то вивести цей елемент;
+    // якщо необхідних рядків в A немає, то вивести порожній рядок; якщо
+    // необхідних рядків більше одного, то вивести рядок «Error».
+    // Використовувати try-блок для перехоплення можливого
+    // виключення. (1)
 
+    // (1) - First, FirstOrDefault, Last, LastOrDefault, Single, SingleOrDefault
+    //     (поелементні операції)
+    //     - Count, Sum, Average, Max, Min, Aggregate (агрегування);
+    //     - Range(генерування послідовностей).
+    try
+    {
+        Console.Write("Enter a symbol: ");
+        char C = (char)Console.Read();
+
+        List<string> A = ["one", "two", "three", "four"];        
+        Console.WriteLine("String list: ");
+        foreach (string s in A) Console.Write(s + " ");
+        Console.WriteLine();
+
+        var endsWithC = A.Where(s => s.EndsWith(C));
+        int amount = endsWithC.Count();
+        //int i = r.Index;
+
+        if (amount == 0)
+        {
+            Console.WriteLine("\"empty string\"");
+        }
+        if (amount == 1)
+        {
+            Console.WriteLine("Element, that ends with {0}: " + endsWithC.First(), C);
+        }
+        if (amount > 1) Console.WriteLine("Error");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.GetType() + ": " + ex.Message);
+    }
 }

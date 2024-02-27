@@ -1,4 +1,6 @@
-﻿while (true)
+﻿using Newtonsoft.Json;
+
+while (true)
 {
     Console.Write("\nChoose a task to run it (1, 2, 3) or type 0 to exit the program: ");
     try
@@ -31,56 +33,91 @@
 
 void Task1()
 {
+    // может с двумя списками пойдёт
+
     //  У колі стоять N людей, пронумерованих від 1 до N. При веденні
     // рахунку по колу викреслюється кожна друга людина, поки не
     // залишиться один. Скласти програму, що моделює процес за
-    // допомогою списків
+    // допомогою списків.
+
+
+
+    // 1 2 3 4 5 6 7 8 9 10;
+    // 1 2 1 2 1 2 1 2 1  2
+    // 
+    // 1 3 5 7 9
+    // 1 2 1 2 1
+    //
+    // 
+}
+
+void Task2()
+{
+    //  Дано список та словник. Створити новий словник, в якому ключами
+    // будуть значення списку, а значеннями ключів — елементи
+    // словника. Записати у JSON файл.
+
     try
     {
-        Console.Write("Enter amount of people in circle: ");
-        int n = int.Parse(Console.ReadLine());
-        List<int> circle = new List<int>();
-        Console.WriteLine("\nStarting circle:");
-        for (int i = 1; i <= n; i++)
-        {
-            circle.Add(i);
-            Console.Write(circle[i - 1] + " ");
-        }
-        Console.WriteLine();
+        //List<int> list = new List<int> { 1, 2, 3, 4, 5 };
+        List<int> list = new List<int> { 1, 2, 2, 3, 4, 5, 5, 6};
+        bool hasDublicates = false;
 
-        // у залежності від минулої кількості людей у колі видаляти чи і + 1, чи і.
-
-        Console.WriteLine("\nСrossing out \"2nds\" in the circle: ");
-        bool isSecondCrossing = false;
-        while (circle.Count > 1) // поки не залишиться один
+        // обробка не унікальних значень
+        for (int i = 0; i < list.Count; i++)
         {
-            // якщо початкова кількість непарна, то далі,
-            // йдучи по колу, перший елемент буде завжди "другим"
-            if (n % 2 == 1 && isSecondCrossing) { circle.RemoveAt(0); } 
-            for (int i = 0; i < circle.Count - 1; i++)
+            if (i != list.LastIndexOf(list[i]))
             {
-                if (i != circle.Count) // якщо не останній (видаляється наступний)
-                {
-                    circle.RemoveAt(i + 1);
-                }
+                Console.WriteLine($"There are dublicates in the given list: {list[i]}.");
+                hasDublicates = true;
             }
-            foreach (int person in circle)
+            while (i != list.LastIndexOf(list[i]))
             {
-                Console.Write(person + " ");
+                list.RemoveAt(list.LastIndexOf(list[i]));
+            }
+        }
+        if (hasDublicates)
+        {
+            Console.WriteLine("Given list without dublicates: ");
+            foreach (int i in list)
+            {
+                Console.Write(i + " ");
             }
             Console.WriteLine();
-            isSecondCrossing = true;
         }
+        
+        Dictionary<string, string> dict = new Dictionary<string, string>
+        {
+            { "1", "one" },
+            { "2", "two" },
+            { "3", "three" },
+            { "4", "four" },
+            { "5", "five" },
+            { "6", "six" }
+        };
+
+        // обробка різної кількості ключей
+        if (list.Count != dict.Keys.Count)
+        {
+            Console.WriteLine($"Key counts are not equal: new: {list.Count}, old: {dict.Keys.Count}.");
+            return;
+        }
+        
+        Dictionary<int, string> newDict = new Dictionary<int, string>();
+        for (int i = 0; i < list.Count; i++)
+        {
+            string newValue = dict.Keys.ElementAt(i) + " " + dict.Values.ElementAt(i);
+            newDict.Add(list[i], newValue);
+        }
+        string json = JsonConvert.SerializeObject(newDict);
+        string path = "C:\\1\\newDict.json";
+        File.WriteAllText(path, json);
+        Console.WriteLine("Json file is here: " + path);
     }
     catch (Exception ex)
     {
         Console.WriteLine(ex.GetType() + ": " + ex.Message);
     }
-}
-
-void Task2()
-{
-
 }
 void Task3()
 {

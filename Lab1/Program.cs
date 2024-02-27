@@ -5,7 +5,7 @@ while (true)
     Console.WriteLine("\nChoose a task to run it (1, 2, 3) or type 0 to exit the program: ");
     try
     {
-        if (!int.TryParse(Console.ReadLine(), out int task)) task = -1;        
+        if (!int.TryParse(Console.ReadLine(), out int task)) task = -1;
         switch (task)
         {
             case 1:
@@ -34,22 +34,64 @@ while (true)
 
 void Task1()
 {
-    // может с двумя списками пойдёт
-
     //  У колі стоять N людей, пронумерованих від 1 до N. При веденні
     // рахунку по колу викреслюється кожна друга людина, поки не
     // залишиться один. Скласти програму, що моделює процес за
     // допомогою списків.
+    try
+    {
+        int n = 1;
+        while (true)
+        {
+            Console.Write("Enter amount of people in circle: ");
+            if (!int.TryParse(Console.ReadLine(), out n) || n <= 0)
+            {
+                Console.WriteLine("Enter a positive integer.");
+                continue;
+            }
+            break;
+        }
+        List<int> circle = new List<int>();
+        Console.WriteLine("\nStarting circle:");
+        for (int i = 1; i <= n; i++)
+        {
+            circle.Add(i);
+            Console.Write(circle[i - 1] + " ");
+        }
+        Console.WriteLine();
 
+        bool crossingOutAtZeroSwitch = n % 2 == 1;
+        int sizeBeforeNextCrossingOut;
 
+        Console.WriteLine("\nСrossing out \"2nds\" in the circle: ");
+        while (circle.Count > 1) 
+        {
+            for (int i = 0; i < circle.Count - 1; i++)
+            {
+                if (i != circle.Count)
+                {
+                    circle.RemoveAt(i + 1); // викреслення "других"
+                }
+            }
+            foreach (int person in circle)
+            {
+                Console.Write(person + " ");
+            }
+            Console.WriteLine();
+            sizeBeforeNextCrossingOut = circle.Count;
+            if (sizeBeforeNextCrossingOut == 1) break;
 
-    // 1 2 3 4 5 6 7 8 9 10;
-    // 1 2 1 2 1 2 1 2 1  2
-    // 
-    // 1 3 5 7 9
-    // 1 2 1 2 1
-    //
-    // 
+            // якщо розмір до поточного викреслення був непарним,
+            // то елемент [0] змінює статус "перший" на "другий" і навпаки
+            // парний розмір залишає статус
+            if (crossingOutAtZeroSwitch) circle.RemoveAt(0);            
+            if (sizeBeforeNextCrossingOut % 2 == 1) crossingOutAtZeroSwitch = !crossingOutAtZeroSwitch;
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.GetType() + ": " + ex.Message);
+    }
 }
 
 void Task2()
@@ -60,7 +102,7 @@ void Task2()
     try
     {
         //List<int> list = new List<int> { 1, 2, 3, 4, 5 };
-        List<int> list = new List<int> { 1, 2, 2, 3, 4, 5, 5, 6};
+        List<int> list = new List<int> { 1, 2, 2, 3, 4, 5, 5, 6 };
         bool hasDublicates = false;
 
         // обробка не унікальних значень
@@ -85,7 +127,7 @@ void Task2()
             }
             Console.WriteLine();
         }
-        
+
         Dictionary<string, string> dict = new Dictionary<string, string>
         {
             { "1", "one" },
@@ -102,7 +144,7 @@ void Task2()
             Console.WriteLine($"Key counts are not equal: new: {list.Count}, old: {dict.Keys.Count}.");
             return;
         }
-        
+
         Dictionary<int, string> newDict = new Dictionary<int, string>();
         for (int i = 0; i < list.Count; i++)
         {
@@ -121,7 +163,7 @@ void Task2()
 }
 void Task3()
 {
-    // Дано символ С і строкова послідовність A. Якщо A містить єдиний
+    //  Дано символ С і строкова послідовність A. Якщо A містить єдиний
     // елемент, що закінчується символом C, то вивести цей елемент;
     // якщо необхідних рядків в A немає, то вивести порожній рядок; якщо
     // необхідних рядків більше одного, то вивести рядок «Error».
@@ -135,9 +177,11 @@ void Task3()
     try
     {
         Console.Write("Enter a symbol: ");
-        char C = (char)Console.Read();
+        // .First() - вирішення проблеми збереження десь у пам'яті пустої строки,
+        // яка автоматом йшла 1 раз як відповідь до вибору завдання
+        char C = Console.ReadLine().First(); 
 
-        List<string> A = ["one", "two", "three", "four"];        
+        List<string> A = ["one", "two", "three", "four"];
         Console.WriteLine("String list: ");
         foreach (string s in A) Console.Write(s + " ");
         Console.WriteLine();
@@ -152,7 +196,7 @@ void Task3()
         }
         if (amount == 1)
         {
-            Console.WriteLine("Element, that ends with {0}: " + endsWithC.First(), C);
+            Console.WriteLine("\nElement, that ends with {0}: " + endsWithC.First(), C);
         }
         if (amount > 1) Console.WriteLine("Error");
     }

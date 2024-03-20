@@ -16,21 +16,21 @@ namespace Lab3
            векторами. Зробити властивості класу приватними, а для їх читання
            створити методи-геттери.
          */
-        private double xStart, yStart, zStart; // Ньютон не працює з автоматичними get/set
+        private double xStart, yStart, zStart; // Newtonsoft не працює з автоматичними get/set
         private double xEnd, yEnd, zEnd;
-        private double xVect, yVect, zVect;
+        //private double xVect, yVect, zVect;
 
-        public double XStart { get => xStart; set => xStart = value; }
+        public double XStart { get => xStart; set => xStart = value; } // для Newtonsoft
         public double YStart { get => yStart; set => yStart = value; }
         public double ZStart { get => zStart; set => zStart = value; }
         public double XEnd { get => xEnd; set => xEnd = value; }
         public double YEnd { get => yEnd; set => yEnd = value; }
         public double ZEnd { get => zEnd; set => zEnd = value; }
-        public double XVect { get => xVect; set => xVect = value; }
-        public double YVect { get => yVect; set => yVect = value; }
-        public double ZVect { get => zVect; set => zVect = value; }
+        //public double XVect { get => xVect; set => xVect = value; }
+        //public double YVect { get => yVect; set => yVect = value; }
+        //public double ZVect { get => zVect; set => zVect = value; }
 
-        /*public double GetXStart() => XStart;
+        public double GetXStart() => XStart;
         public double GetYStart() => YStart;
         public double GetZStart() => ZStart;
 
@@ -38,9 +38,9 @@ namespace Lab3
         public double GetYEnd() => YEnd;
         public double GetZEnd() => ZEnd;
 
-        public double GetXVect() => XVect;
-        public double GetYVect() => YVect;
-        public double GetZVect() => ZVect;*/
+        public double GetXVect() => /*XVect*/ XEnd - XStart;
+        public double GetYVect() => /*YVect*/ YEnd - YStart;
+        public double GetZVect() => /*ZVect*/ ZEnd - ZStart;
 
         public Vector() {}
 
@@ -54,9 +54,9 @@ namespace Lab3
             yEnd = YEnd;
             zEnd = ZEnd;
 
-            xVect = XEnd - XStart;
-            yVect = YEnd - YStart;
-            zVect = ZEnd - ZStart;
+            //xVect = XEnd - XStart;
+            //yVect = YEnd - YStart;
+            //zVect = ZEnd - ZStart;
         }
 
         public Vector(double XEnd, double YEnd, double ZEnd) // якщо потрібен початок вектора на 0
@@ -66,7 +66,7 @@ namespace Lab3
             zEnd = ZEnd;
 
             xStart = 0; yStart = 0; zStart = 0;         
-            xVect = XEnd; yVect = YEnd; zVect = ZEnd;   
+            //xVect = XEnd; yVect = YEnd; zVect = ZEnd;   
         }
 
         public void PrintCoords()
@@ -75,26 +75,26 @@ namespace Lab3
         }
         public void PrintVect()
         {
-            Console.WriteLine($"Vector: ({XVect}, {YVect}, {ZVect})");
+            Console.WriteLine($"Vector: ({GetXVect()}, {GetYVect()}, {GetZVect()})");
         }
 
-        public static Vector Sum(Vector v1, Vector v2) 
+        public Vector Sum(/*Vector v1, */Vector v2) 
         {
-            return new Vector(v1.XStart + v2.XStart, v1.YStart + v2.YStart, v1.ZStart + v2.ZStart, v1.XEnd + v2.XEnd, v1.YEnd + v2.YEnd, v1.ZEnd + v2.ZEnd);
+            return new Vector(this.XStart + v2.XStart, this.YStart + v2.YStart, this.ZStart + v2.ZStart, this.XEnd + v2.XEnd, this.YEnd + v2.YEnd, this.ZEnd + v2.ZEnd);
         }
-        public static Vector Diff(Vector v1, Vector v2) 
+        public Vector Diff(/*Vector v1, */Vector v2) 
         {
-            return new Vector(v1.XStart - v2.XStart, v1.YStart - v2.YStart, v1.ZStart - v2.ZStart, v1.XEnd - v2.XEnd, v1.YEnd - v2.YEnd, v1.ZEnd - v2.ZEnd);
+            return new Vector(this.XStart - v2.XStart, this.YStart - v2.YStart, this.ZStart - v2.ZStart, this.XEnd - v2.XEnd, this.YEnd - v2.YEnd, this.ZEnd - v2.ZEnd);
         }
 
-        public static Vector SumVect(Vector v1, Vector v2) // створений вектор переміщається у початок координат
-        {
-            return new Vector(v1.XVect + v2.XVect, v1.YVect + v2.YVect, v1.ZVect + v2.ZVect);
-        }
-        public static Vector DiffVect(Vector v1, Vector v2) // створений вектор переміщається у початок координат
-        {
-            return new Vector(v1.XVect - v2.XVect, v1.YVect - v2.YVect, v1.ZVect - v2.ZVect);
-        }
+        //public Vector SumVect(Vector v1, Vector v2) // створений вектор переміщається у початок координат
+        //{
+        //    return new Vector(v1.XVect + v2.XVect, v1.YVect + v2.YVect, v1.ZVect + v2.ZVect);
+        //}
+        //public Vector DiffVect(Vector v1, Vector v2) // створений вектор переміщається у початок координат
+        //{
+        //    return new Vector(v1.XVect - v2.XVect, v1.YVect - v2.YVect, v1.ZVect - v2.ZVect);
+        //}
 
         public void MoveVect(double x, double y, double z)
         {
@@ -107,19 +107,19 @@ namespace Lab3
             zEnd += z;
         }
 
-        public static double ScalarProduct(Vector v1, Vector v2)
+        public double ScalarProduct(/*Vector v1, */Vector v2)
         {
-            return (v1.XVect * v2.XVect) + (v1.YVect * v2.YVect) + (v1.ZVect * v2.ZVect);
+            return (GetXVect() * v2.GetXVect()) + (GetYVect() * v2.GetYVect()) + (GetZVect() * v2.GetZVect());
         }
 
-        public static double Length(Vector v)
+        public double Length()
         {
-            return Math.Sqrt((v.XVect * v.XVect) + (v.YVect * v.YVect) + (v.ZVect * v.ZVect));
+            return Math.Sqrt((this.GetXVect() * this.GetXVect()) + (this.GetYVect() * this.GetYVect()) + (GetZVect() * GetZVect()));
         }
 
-        public static double Cosine(Vector v1, Vector v2)
+        public double Cosine(/*Vector v1, */Vector v2)
         {
-            return ScalarProduct(v1, v2) / (Length(v1) * Length(v2)); 
+            return this.ScalarProduct(v2) / (this.Length() * v2.Length()); 
         }
 
         // Метод 1. Зберігає створений об’єкт класу з Завдання 1 у JSON файл

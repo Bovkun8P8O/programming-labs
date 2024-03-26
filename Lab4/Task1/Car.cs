@@ -57,7 +57,19 @@
 
         public override bool Equals(object obj)
         {
-            if (obj is Car car) return carBrand == car.carBrand && engine == car.engine && wheels == car.wheels;
+            if (obj is Car car)
+            {
+                bool areTypesEqual = true;
+                for (int i = 0; i < wheelsAmount; i++)
+                {
+                    if (wheels[i].Type != car.wheels[i].Type)
+                    {
+                        areTypesEqual = false;
+                        break;
+                    }
+                }
+                return carBrand == car.carBrand && engine.EngineModel == car.engine.EngineModel && areTypesEqual;
+            }
             return false;
         }
 

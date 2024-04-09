@@ -103,20 +103,3 @@ Console.WriteLine(mechManager.ToString());
 Console.WriteLine();
 Console.WriteLine(engManager.ToString());
 Console.WriteLine();
-/*
-foreach (Mechanic mech in mechanics)
-{
-    mechManager.Dismiss(mech);
-}
-Console.WriteLine();
-Console.WriteLine(mechManager.ToString());
-Console.WriteLine();
-Console.WriteLine(mechanics.Count);
-Console.WriteLine(employees.Count);
-int mechAmount = employees.FindAll(e => e.Position.Contains("Mechanic")).Count;
-Console.WriteLine(mechAmount);
-//foreach (Mechanic mech in mechanics)
-//{
-//    mech.ToString();
-//    //if (mech == null) Console.WriteLine("Mechanic is null");
-//}*/
